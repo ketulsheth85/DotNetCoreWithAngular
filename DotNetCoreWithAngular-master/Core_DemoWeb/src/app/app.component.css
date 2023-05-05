@@ -1,0 +1,8 @@
+.topbar {
+    position: relative;
+    z-index: 50;
+    transition: 0.2s ease-in;
+    box-shadow: 1px 0px 7px rgb(0 0 0 / 5%);
+    background: #041f3e !important;
+    height: 64px;
+}

@@ -1,0 +1,317 @@
+<!-- <div class="row p-t-20">
+  <div class="container-fluid ">
+    <h2 class="text-center">Product Detail</h2>
+    <div class="card shadow-sm rounded-3 border-secondary container m-t-20">
+      <div class="row">
+        <div class="col-lg-6 row">
+          <div class="white-box col text-center">
+            <figure class="figure p-l-40 p-r-40 p-t-20">
+              <img src={{productDetails.productImage}} class="figure-img img-fluid rounded img-thumbnail shadow">
+            </figure>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <small class="text-muted">Product Name </small>
+                  <h6>{{productDetails.productName}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Production No</small>
+                  <h6>{{productDetails.productionNo}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Tag</small>
+                  <h6>{{productDetails.tag}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Qr Code</small>
+                  <h6>{{productDetails.qrCode}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Production Date</small>
+                  <h6>{{productDetails.productionDate | date:'dd/MM/yyyy'}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Warranty Date</small>
+                  <h6>{{productDetails.warrantyDate | date:'dd/MM/yyyy'}}</h6>
+                </div>
+                <div class="col-lg-12">
+                  <small class="text-muted p-t-30 db">Categaory</small>
+                  <h6 class="mt-2">
+                    <a *ngFor="let item of selectedItems">
+                      <span class="label label-rounded label-danger">
+                        {{item.name}}
+                      </span>
+                      &nbsp;
+                    </a>
+                  </h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">Serial Number</small>
+                  <h6>{{productDetails.serialNo}}</h6>
+                </div>
+                <div class="col-lg-12">
+                  <small class="text-muted p-t-30 db">Description</small>
+                  <h6>{{productDetails.description}}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey1}}</small>
+                  <h6> {{productDetails.attributeValue1 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey2}}</small>
+                  <h6> {{productDetails.attributeValue2 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey3}}</small>
+                  <h6> {{productDetails.attributeValue3 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey3}}</small>
+                  <h6> {{productDetails.attributeValue3 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey4}}</small>
+                  <h6> {{productDetails.attributeValue4 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey5}}</small>
+                  <h6> {{productDetails.attributeValue5 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey6}}</small>
+                  <h6> {{productDetails.attributeValue6 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey7}}</small>
+                  <h6> {{productDetails.attributeValue7 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey8}}</small>
+                  <h6> {{productDetails.attributeValue8 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey9}}</small>
+                  <h6> {{productDetails.attributeValue9 }}</h6>
+                </div>
+                <div class="col-lg-6">
+                  <small class="text-muted p-t-30 db">{{productDetails.attributeKey10}}</small>
+                  <h6> {{productDetails.attributeValue10 }}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="product-details">
+  <section class="pt-5">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="py-3 col-12 order-2 col-lg-6 order-lg-1">
+          <div class="swiper-container swiper-container-initialized swiper-container-horizontal">
+            <div >
+              <div class="swiper-slide swiper-slide-active" style="width: 100vh;height: 100vh;padding-left: 20vh;">
+                <div class="detail-full-item bg-cover" style="width: 70vh;height: 50vh"
+                  [ngStyle]="{'background-image': 'url('+productDetails.productImage+')'}"></div>
+              </div>
+
+
+            </div>
+            <!-- <div class="swiper-pagination swiper-pagination-white
+              swiper-pagination-clickable swiper-pagination-bullets
+              swiper-pagination-bullets-dynamic" style="width: 80px;">
+              <span class="swiper-pagination-bullet swiper-pagination-bullet-active
+                swiper-pagination-bullet-active-main" tabindex="0" role="button" aria-label="Go to slide 1"
+                style="left: 32px;">
+              </span>
+              <span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" tabindex="0" role="button"
+                aria-label="Go to slide 2" style="left: 32px;">
+              </span>
+              <span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" tabindex="0"
+                role="button" aria-label="Go to slide 3" style="left: 32px;">
+              </span>
+              <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"
+                style="left: 32px;">
+              </span>
+              <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5"
+                style="left: 32px;"></span>
+            </div> -->
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center pl-lg-5 mb-5 col-12
+        order-1 col-lg-6 order-lg-2 col-xl-5">
+          <div>
+
+            <h1 class="mb-4">{{productDetails.productName}}</h1>
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between mb-4">
+              <ul class="list-inline mb-2 mb-sm-0">
+                <li class="list-inline-item  font-weight-light text-muted">Production Number:</li>
+                <li class="list-inline-item font-weight-light text-muted">{{productDetails.productionNo}}</li>
+                <!-- <li class="list-inline-item text-muted font-weight-light"><del>$90.00</del></li> -->
+              </ul>
+
+            </div>
+            <p class="mb-4 text-muted">{{productDetails.description}}
+            </p>
+            <form class="">
+              <div class="row">
+                <div class="detail-option mb-4 col-sm-6 col-lg-12 col-xl-6">
+                  <h6 class="detail-option-heading">Qr Code </h6>
+                  <label for="material_0" class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{productDetails.qrCode}}
+                  </label>
+                </div>
+                <div class="detail-option mb-4 col-sm-6 col-lg-12 col-xl-6">
+                  <h6 class="detail-option-heading">Tags</h6>
+                  <label for="material_0" class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{productDetails.tag}}
+                  </label>
+                </div>
+                <div class="detail-option mb-5 col-12 col-lg-6">
+                  <label class="detail-option-heading font-weight-bold">Production Date:
+                  </label>
+                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{productDetails.productionDate | date:'dd/MM/yyyy'}}
+                  </label>
+                </div>
+                <div class="detail-option mb-5 col-12 col-lg-6">
+                  <label class="detail-option-heading font-weight-bold">Warranty Date:
+                  </label>
+                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{productDetails.warrantyDate | date:'dd/MM/yyyy'}}
+                  </label>
+                </div>
+                <div class="detail-option mb-5 col-12 col-lg-12">
+                  <label class="detail-option-heading font-weight-bold">Sub Category: &nbsp;
+                  </label>
+                  <label *ngFor="let item of selectedItems"
+                    class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{item.name}}
+                  </label>
+                </div>
+                <div class="detail-option mb-5 col-12 col-lg-6">
+                  <label class="detail-option-heading font-weight-bold">Serial Number:
+                  </label>
+                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label mr-2">
+                    {{productDetails.serialNo}}
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mt-5">
+    <div class="container" *ngIf="IsAdditionalInfo == true">
+      <ul class="flex-column flex-sm-row nav nav-tabs">
+        <li class="nav-item"><a class="detail-nav-link active nav-link">Additional Information</a></li>
+      </ul>
+      <div class="tab-content py-4">
+        <div class="tab-pane active">
+          <div class="row">
+            <div class="col-md-6">
+              <table class="table text-sm">
+                <tbody>
+                  <tr *ngIf="productDetails.attributeKey1">
+                    <th class="text-uppercase font-weight-normal border-0">{{productDetails.attributeKey1}}</th>
+                    <td class="text-muted border-0">{{productDetails.attributeValue1}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey3">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey3}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue3}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey5">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey5}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue5}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey7">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey7}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue7}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey9">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey9}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue9}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table text-sm">
+                <tbody>
+                  <tr *ngIf="productDetails.attributeKey2">
+                    <th class="text-uppercase font-weight-normal border-0">{{productDetails.attributeKey2}}</th>
+                    <td class="text-muted border-0">{{productDetails.attributeValue2}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey4">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey4}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue4}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey6">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey6}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue6}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey8">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey8}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue8}}</td>
+                  </tr>
+                  <tr *ngIf="productDetails.attributeKey10">
+                    <th class="text-uppercase font-weight-normal">{{productDetails.attributeKey10}}</th>
+                    <td class="text-muted">{{productDetails.attributeValue10}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="my-5" *ngIf="Items.length">
+    <div class="container">
+      <header class="text-center">
+        <h6 class="text-uppercase mb-5">Related Products</h6>
+      </header>
+      <div class="row">
+        <div class="col-6 col-md-4 col-lg-2 col-xl-2" *ngFor="let relpro of Items">
+          <div class="product">
+            <div class="product-image">
+              <div style="display: block; overflow: hidden; position: relative; box-sizing: border-box; margin: 0px;">
+                <div style="display: block; box-sizing: border-box; padding-top: 150%;">
+                </div>
+                <img alt="White Tee" src="{{relpro.productImage}}" class="img-fluid"
+                  style="visibility: inherit; position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
+              </div>
+              <div class="product-hover-overlay">
+                <a class="product-hover-overlay-link cursor-pointer" (click)="loadNewProduct(relpro.productId)"></a>
+                <div class="product-hover-overlay-buttons">
+                  <a class="btn btn-dark btn-buy cursor-pointer" (click)="loadNewProduct(relpro.productId)">
+                    <i class="fa-search fas"></i>
+                    <span class="btn-buy-label ml-2">View</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="py-2">
+              <h3 class="h6 text-uppercase mb-1">
+                <a class="text-dark cursor-pointer" (click)="loadNewProduct(relpro.productId)">
+                  {{relpro.productName}}</a>
+              </h3>
+              <span class="text-muted">{{relpro.productionNo}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,195 @@
+<div class="row p-t-30">
+  <div class="col-lg-12">
+    <div class="container-fluid shadow-sm" *ngIf="mode=='profile'">
+
+      <div class="row">
+
+        <div class="col-lg-12 col-xlg-9 col-md-7">
+          <div class="card">
+            <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+              <div class="row">
+                <div class="col-lg-8 col-sm-6 col-6">
+                  <h5 class="m-b-0 text-white">My Account</h5>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-6 float-right">
+                  <a class="text-white float-right" (click)="mode = 'profileEdit'"><i class="far fa-edit text-info"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- <ul ngbnav="" class="nav-pills nav" ng-reflect-active-id="1" role="tablist">
+                <li class="nav-pills nav-item" ng-reflect-_id="1">
+                  <a class="nav-link active" (click)="mode = 'profileEdit'">Edit</a>
+                </li>
+              </ul> -->
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-xs-6 b-r"><strong>First Name</strong><br>
+                    <p class="text-muted">{{userdetail.firstName}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6 b-r"><strong>Last Name</strong><br>
+                    <p class="text-muted">{{userdetail.lastName}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6 b-r"><strong>Company Name</strong><br>
+                    <p class="text-muted">{{userdetail.companyName}}</p>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 col-xs-6"><strong>User Name</strong><br>
+                    <p class="text-muted">{{userdetail.userName}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6 b-r"><strong>Email</strong><br>
+                    <p class="text-muted">{{userdetail.userEmailId}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6 b-r"><strong>Phone No</strong><br>
+                    <p class="text-muted">{{userdetail.phoneNo == "" ? "-" : userdetail.phoneNo}}</p>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 col-xs-6 b-r"><strong>Mobile</strong><br>
+                    <p class="text-muted">{{userdetail.mobile == "" ? "-" : userdetail.mobile}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6"><strong>Location</strong><br>
+                    <p class="text-muted">{{userdetail.userLocation == "" ? "-" : userdetail.userLocation}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-6"><strong>Department</strong><br>
+                    <p class="text-muted">{{userdetail.department == "" ? "-" : userdetail.department}}</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container-fluid shadow-sm" *ngIf="mode=='profileEdit'">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+            <div class="row">
+              <div class="col-lg-8 col-6">
+                <h5 class="m-b-0 text-white">Edit Profile</h5>
+              </div>
+              <div class="col-lg-4 col-6 float-right">
+                <a (click)="mode = 'profile'" class="text-white float-right"><i class="mdi mdi-eye"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+              <input type="hidden" name="paymentDetailId" />
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label>First Name</label>
+                  <input class="form-control form-control-md" id="firstName" #firstName="ngModel"
+                    placeholder="First Name" name="firstName" ngModel="{{userdetail.firstName}}" required />
+                  <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert-danger">
+                    <div *ngIf="firstName.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter first name.</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Last Name</label>
+                  <input class="form-control form-control-md" placeholder="Last Name" name="lastName" id="lastName"
+                    #lastName="ngModel" ngModel="{{userdetail.lastName}}" required />
+                  <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert-danger">
+                    <div *ngIf="lastName.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter last name.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>User Name</label>
+                  <input class="form-control form-control-md" placeholder="User Name" id="userName" #userName="ngModel"
+                    name="userName" disabled ngModel="{{userdetail.userName}}" required>
+                  <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="alert-danger">
+                    <div *ngIf="userName.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter user name.</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>User Email</label>
+                  <input class="form-control form-control-md" placeholder="User Email" name="userEmailId"
+                    #userEmailId="ngModel" ngModel="{{userdetail.userEmailId}}" email required />
+                  <div *ngIf="userEmailId.invalid && (userEmailId.dirty || userEmailId.touched)" class="alert-danger">
+                    <div *ngIf="userEmailId.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter email.</div>
+                    <div *ngIf="userEmailId.errors?.email" class="alert alert-danger p-2" role="alert">
+                      Please enter email correctly.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Password</label>
+                  <input class="form-control form-control-md" type="password" placeholder="Password" id="password"
+                    minlength="8" maxlength="15" #password="ngModel" name="password" ngModel="{{userdetail.password}}"
+                    pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,}$" required>
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
+                    <div *ngIf="password.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter password.</div>
+                    <div *ngIf="password.errors?.minlength" class="alert alert-danger p-2" role="alert">
+                      Password must be at least 8 characters long.
+                    </div>
+                    <div *ngIf="password.errors?.pattern && !password.errors?.minlength" class="alert alert-danger p-2"
+                      role="alert">
+                      Password must contain at list one letter and one digit.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Phone No</label>
+                  <input class="form-control form-control-md" placeholder="Phone No" name="phoneNo" #phoneNo="ngModel"
+                    ngModel="{{userdetail.phoneNo}}" required />
+                  <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="alert-danger">
+                    <div *ngIf="phoneNo.errors?.required" class="alert alert-danger p-2" role="alert">
+                      Please enter phone no.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Mobile</label>
+                  <input class="form-control form-control-md" placeholder="Mobile" name="mobile"
+                    ngModel="{{userdetail.mobile}}" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Location</label>
+                  <input class="form-control form-control-md" placeholder="Location" name="userLocation"
+                    #userLocation="ngModel" ngModel="{{userdetail.userLocation}}" />
+                </div>
+              </div>
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label>Department</label>
+                  <input class="form-control form-control-md" placeholder="Department" name="department"
+                    ngModel="{{userdetail.department}}" />
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="hidden" name="companyId" ngModel="{{userdetail.companyId}}">
+                <input type="hidden" name="roleId" ngModel="{{userdetail.roleId}}">
+                <input type="hidden" name="userId" ngModel="{{userdetail.userId}}">
+                <button class="btn btn-info btn-md" type="submit" [ngStyle]="setMyBgColor(userData.colorCode)"
+                  [disabled]="form.invalid">SUBMIT</button>
+                <button class="btn btn-secondary btn-md ml-2" type="reset">CANCEL</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

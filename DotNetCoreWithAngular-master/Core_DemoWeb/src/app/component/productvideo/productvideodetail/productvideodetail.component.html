@@ -1,0 +1,177 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+                <div class="row">
+                    <div class="col-lg-8 col-6">
+                        <h5 class="m-b-0 text-white">Product Video Details</h5>
+                    </div>
+                    <div class="col-lg-4 col-6 float-right">
+                        <a (click)="open(content,0)" class="text-white float-right"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+                    placeholder="Type to filter the columns"
+                    (keyup)="updateFilter($event)" />
+
+                  <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                  [scrollbarH]="scrollBarHorizontal" rowHeight="auto" [limit]="10" [rows]="lstproductvideo">
+                    <ngx-datatable-column name="Product Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Video Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Video Type"></ngx-datatable-column>
+                    <ngx-datatable-column name="Company Name"></ngx-datatable-column>
+
+                    <ngx-datatable-column name="Actions" [sortable]="false" style="float: right;">
+                      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <a (click)="editViewRow(row,content,0)" *ngIf="row.isAssigned == 0" title="" class="text-inverse ">
+                          <i class="far fa-edit text-info"></i>
+                        </a>
+                        <a (click)="editViewRow(row,content,1)" title="" class="text-inverse" style="margin: 0 0 0 10px;">
+                            <i class="fas fa-eye text-info"></i>
+                          </a>
+                        <a (click)="deleteRecord(row)" title="" *ngIf="row.isAssigned == 0" class="text-inverse " style="margin: 0 0 0 10px;">
+                          <i class="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header" [ngStyle]="setMyBgColor(userData.colorCode)">
+            <h4 class="modal-title" id="modal-basic-title">Product Video</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div *ngIf="mode=='Edit'">
+            <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="prCatName">Product</label>
+                            <select id="products" class="form-control" (change)="onProductChange($event)"
+                                name="products" #products="ngModel" ngModel="{{productvideo.selectedID}}" required>
+                                <option value="" selected="selected">Select Product</option>
+                                <option *ngFor="let product_ of productList;" value="{{product_.productId}}">
+                                    {{product_.productName }}</option>
+                            </select>
+                            <div *ngIf="products.invalid && (products.dirty || products.touched)"
+                                class="alert-danger">
+                                <div *ngIf="products.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please select product.</div>
+                            </div>
+                            <input type="hidden" id="productId" name="productId" #productId="ngModel"
+                                ngModel={{productvideo.productId}} />
+                        </div>
+                        <div class="form-group">
+                            <label for="prCatName">Video Name</label>
+                            <input id="videoName" class="form-control" placeholder="Video Name" name="videoName"
+                                #name="ngModel" ngModel="{{productvideo.videoName}}" required>
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                class="alert-danger">
+                                <div *ngIf="name.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please enter video name.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prCatName">Video Type</label>
+                            <select id="videoType" class="form-control" (change)="onVideoTypeChange($event)"
+                                name="videoType" #videoType="ngModel" ngModel="{{productvideo.videoType}}" required>
+                                <option value="" selected="selected">Select VideoType</option>
+                                <option value="YouTube">YouTube</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div *ngIf="videoType.invalid && (videoType.dirty || videoType.touched)"
+                                class="alert-danger">
+                                <div *ngIf="videoType.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please select video type.</div>
+                            </div>
+                        </div>
+                    <div class="form-group clsvideopath" style="display: none;">
+                        <div class="clsyoutubeurl">
+                            <label for="prCatName">Video Url</label>
+                            <input id="txtvideoUrl" class="form-control clstxtvurl" placeholder="YouTube Video Url"
+                            name="txtvideoUrl" #youtubevurl="ngModel" ngModel="{{productvideo.youtubevurl}}"
+                            (keyup)="loadVideo($event)">
+                            <div *ngIf="youtubevurl.invalid && (youtubevurl.dirty || youtubevurl.touched)"
+                                class="alert-danger">
+                                <div *ngIf="youtubevurl.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please enter video url.</div>
+                            </div>
+                        </div>
+                        <div class="clsotherurl">
+                            <label for="prCatName">Upload video</label><br>
+                            <div class="custom-file">
+                                <input id="inputGroupFile01" type="file" #file (change)="uploadFile($event)" class="custom-file-input">
+                                <label for="inputGroupFile01" class="custom-file-label">
+                                    Choose file
+                                </label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="videoUrl" name="videoUrl" #videoUrl="ngModel"
+                                ngModel="{{productvideo.videoUrl}}" >
+                    </div >
+                    <div class="form-group clsVideo" *ngIf="add==0">
+                        <h5 class="text-bold-600">Video</h5>
+                        <div class="form-group embed-responsive embed-responsive-16by9">
+
+                            <video id="ifrmaUr" class="embed-responsive-item" [src]='productvideo.videoUrl' *ngIf="productvideo.videoType== 'Other'" controls></video>
+                            <iframe id="ifrmaUrl" class="embed-responsive-item" [src]='productvideo.videoUrl| safeVideo' *ngIf="productvideo.videoType== 'YouTube'" X-Frame-Options="SAMEORIGIN" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="videoId" name="videoId"
+                        #videoId="ngModel" ngModel={{productvideo.videoId}} />
+                    <button type="submit" class="btn btn-success" [ngStyle]="setMyBgColor(userData.colorCode)"
+                    [disabled]="form.invalid" >Save</button>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="mode=='View'">
+            <form autocomplete="off" #form="ngForm" >
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Product</h5>
+                            <h4 class="text-muted text-bold-600"> {{productvideo.productName}}</h4>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Video Name</h5>
+                            <h4 class="text-muted text-bold-600"> {{productvideo.videoName}}</h4>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Video Type</h5>
+                            <h4 class="text-muted text-bold-600"> {{productvideo.videoType}}</h4>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6">
+                            <h5 class="text-bold-600">Video</h5>
+                            <div class="form-group embed-responsive embed-responsive-16by9">
+                                <!-- <h4 class="text-muted text-bold-600"> {{productvideo.youtubevurl}}</h4> -->
+                                <iframe class="embed-responsive-item" [src]="productvideo.videoUrl | safeVideo" X-Frame-Options="SAMEORIGIN" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+</div>

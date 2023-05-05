@@ -1,0 +1,523 @@
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <div class="card" *ngIf="mode=='Edit'">
+      <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+        <div class="row">
+          <div class="col-lg-8 col-6">
+            <h5 class="m-b-0 text-white">Asset Form</h5>
+          </div>
+          <div class="col-lg-4 col-6 float-right">
+            <a routerLink="/component/productmaster" class="text-white float-right"><i class="mdi mdi-eye"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+          <input type="hidden" name="paymentDetailId" />
+          <div class="form-row">
+            <div class="input-group  ">
+              <div class="form-group col-md-6 text-center">
+                <label>
+                  Asset Image
+                </label>
+                <div class="custom-file hight100 mb-5">
+                  <input type="file" #file (change)="uploadFile($event)" class="custom-file-input"
+                    style="display: none;">
+
+                  <img class="avatar border-gray img-fluid shadow" (click)="file.click()" id="ProPic"
+                    src="{{productDetails.productImage}}">
+                  <!-- <label for="inputGroupFile01">
+                              Choose file
+                          </label> -->
+                  <input type="hidden" id="productImage" name="productImage" />
+                </div>
+              </div>
+              <div class="form-group  col-lg-6 hight100 text-center">
+                <label>
+                  Asset Qrcode
+                </label>
+                <div class="custom-file hight100 mb-5">
+                  <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1">
+                      <qrcode id="qrcodeImage" [qrdata]="myAngularxQrCode" [elementType]="elementType" [width]="175"
+                        [allowEmptyString]="true" [errorCorrectionLevel]="'M'">
+                      </qrcode>
+                      <div class="el-overlay">
+                        <ul class="list-style-none el-info">
+                          <li class="el-item">
+                            <a [href]="href" (click)="onImageDownload()" class="btn default btn-lg btn-outline el-link"
+                              target="_blank">
+                              <i class="mdi mdi-download">
+                              </i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Asset Name</label>
+              <input class="form-control form-control-md" id="productName" #productName="ngModel"
+                placeholder="Asset Name" name="productName" ngModel="{{productDetails.productName}}" required />
+              <div *ngIf="productName.invalid && (productName.dirty || productName.touched)" class="alert-danger">
+                <div *ngIf="productName.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter Asset name.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>QR Code</label>
+              <input class="form-control form-control-md" (blur)="onBlurQrCode($event)" placeholder="QR Code"
+                name="qrCode" id="qrCode" #qrCode="ngModel" ngModel="{{productDetails.qrCode}}" required />
+              <div *ngIf="qrCode.invalid && (qrCode.dirty || qrCode.touched)" class="alert-danger">
+                <div *ngIf="qrCode.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter qr code.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Description</label>
+              <textarea class="form-control form-control-md" placeholder="Description" id="description"
+                #description="ngModel" name="description" ngModel="{{productDetails.description}}" required></textarea>
+              <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
+                <div *ngIf="description.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter description.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tag</label>
+              <input class="form-control form-control-md" placeholder="Tag" name="tag" id="tag" #tag="ngModel"
+                ngModel="{{productDetails.tag}}" required />
+              <div *ngIf="tag.invalid && (tag.dirty || tag.touched)" class="alert-danger">
+                <div *ngIf="tag.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter qr code.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Serial No</label>
+              <input class="form-control form-control-md" placeholder="Serial No" name="serialNo" id="serialNo"
+                #serialNo="ngModel" ngModel="{{productDetails.serialNo}}" />
+            </div>
+            <div class="form-group col-md-6">
+              <label>Production No</label>
+              <input class="form-control form-control-md" placeholder="Production No" name="productionNo"
+                id="productionNo" #productionNo="ngModel" ngModel="{{productDetails.productionNo}}" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Production Date</label>
+              <input class="form-control form-control-md" type="date" name="productionDate" id="productionDate"
+                #productionDate="ngModel" [ngModel]="productDetails.productionDate | date:'yyyy-MM-dd'" />
+            </div>
+            <div class="form-group col-md-6">
+              <label>Warranty Date</label>
+              <input class="form-control form-control-md" type="date" name="warrantyDate" id="warrantyDate"
+                #warrantyDate="ngModel" ngModel="{{productDetails.warrantyDate| date:'yyyy-MM-dd'}}" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Status</label>
+              <input class="form-control form-control-md" placeholder="Status" name="status" id="status"
+                #status="ngModel" ngModel="{{productDetails.status}}" />
+              <input type="hidden" name="companyId" ngModel="{{productDetails.companyId}}">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Asset Category</label>
+              <select id="productCategory" class="form-control" (change)="onProducCatChange($event)"
+                name="productCategory" #productCategory="ngModel" ngModel="{{productDetails.productCat}}" required>
+                <option value="" selected="selected">Select Asset Category</option>
+                <option *ngFor="let product_Cat of productCatList;" value="{{product_Cat.productCategoryID}}">
+                  {{product_Cat.productCategotryName }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Asset Sub Category</label>
+              <ng-multiselect-dropdown name="productSubCat" [placeholder]="'Select Asset Sub Category'"
+                [data]="productSubCatList" [disabled]="disabled" #productSubCat="ngModel"
+                [(ngModel)]="selectedProductSubCatItems" [settings]="dropdownSettings"
+                (ngModelChange)="onProductSubCatChange($event)" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+              <input type="hidden" name="roleId">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Asset Relations</label>
+              <ng-multiselect-dropdown name="relationProduct" [placeholder]="'Select Asset Relations'"
+                [data]="relationalProduct" #relationProduct="ngModel" [(ngModel)]="selectedProductItems"
+                [settings]="dropdownProSettings" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+              <input type="hidden" name="roleId">
+            </div>
+          </div>
+
+          <table id="tblAdd" class="table table-hover table-bordered no-wrap v-middle">
+            <thead>
+              <tr>
+                <th class="border-bottom-0">Attribute Key</th>
+                <th class="border-bottom-0">Attribute Value</th>
+                <th class="border-bottom-0">Attribute Key</th>
+                <th class="border-bottom-0">Attribute Value</th>
+              </tr>
+            </thead>
+            <tbody class="ng-untouched ng-pristine ng-valid">
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey1"
+                    name="attributeKey1" #attributeKey1="ngModel" ngModel="{{productDetails.attributeKey1}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue1"
+                    name="attributeValue1" #attributeValue1="ngModel" ngModel="{{productDetails.attributeValue1}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey2"
+                    name="attributeKey2" #attributeKey2="ngModel" ngModel="{{productDetails.attributeKey2}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue2"
+                    name="attributeValue2" #attributeValue2="ngModel" ngModel="{{productDetails.attributeValue2}}">
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey3"
+                    name="attributeKey3" #attributeKey3="ngModel" ngModel="{{productDetails.attributeKey3}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue3"
+                    name="attributeValue3" #attributeValue3="ngModel" ngModel="{{productDetails.attributeValue3}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey4"
+                    name="attributeKey4" #attributeKey4="ngModel" ngModel="{{productDetails.attributeKey4}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue4"
+                    name="attributeValue4" #attributeValue4="ngModel" ngModel="{{productDetails.attributeValue4}}">
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey5"
+                    name="attributeKey5" #attributeKey5="ngModel" ngModel="{{productDetails.attributeKey5}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue5"
+                    name="attributeValue5" #attributeValue5="ngModel" ngModel="{{productDetails.attributeValue5}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey6"
+                    name="attributeKey6" #attributeKey6="ngModel" ngModel="{{productDetails.attributeKey6}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue6"
+                    name="attributeValue6" #attributeValue6="ngModel" ngModel="{{productDetails.attributeValue6}}">
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey7"
+                    name="attributeKey7" #attributeKey7="ngModel" ngModel="{{productDetails.attributeKey7}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue7"
+                    name="attributeValue7" #attributeValue7="ngModel" ngModel="{{productDetails.attributeValue7}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey8"
+                    name="attributeKey8" #attributeKey8="ngModel" ngModel="{{productDetails.attributeKey8}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue8"
+                    name="attributeValue8" #attributeValue8="ngModel" ngModel="{{productDetails.attributeValue8}}">
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey9"
+                    name="attributeKey9" #attributeKey9="ngModel" ngModel="{{productDetails.attributeKey9}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Value" class="form-control" id="attributeValue9"
+                    name="attributeValue9" #attributeValue9="ngModel" ngModel="{{productDetails.attributeValue9}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeKey10"
+                    name="attributeKey10" #attributeKey10="ngModel" ngModel="{{productDetails.attributeKey10}}">
+                </td>
+                <td>
+                  <input type="text" placeholder="Attribute Key" class="form-control" id="attributeValue10"
+                    name="attributeValue10" #attributeValue10="ngModel" ngModel="{{productDetails.attributeValue10}}">
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group">
+            <input type="hidden" name="productId" id="productId" #productId="ngModel"
+              ngModel="{{productDetails.productId}}">
+            <button class="btn btn-info btn-md" type="submit" [ngStyle]="setMyBgColor(userData.colorCode)"
+              [disabled]="form.invalid">SUBMIT</button>
+            <!-- <button class="btn btn-secondary btn-md ml-2" type="reset">CANCEL</button> -->
+            <a routerLink="/component/productmaster" class="btn btn-secondary btn-md ml-2 text-white">CANCEL</a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="mode=='View'">
+      <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5 class="m-b-0 text-white">Asset Details</h5>
+          </div>
+          <div class="col-lg-4 float-right">
+            <a routerLink="/component/productmaster" class="text-white float-right"><i class="mdi mdi-eye"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form autocomplete="off" #form="ngForm">
+          <input type="hidden" name="paymentDetailId" />
+          <div class="form-row" style="align-content: center;">
+            <div class="input-group  ">
+              <div class="form-group col-md-6 text-center">
+                <label>
+                  Asset Image
+                </label>
+                <div class="custom-file hight100 mb-5">
+                  <img class="avatar border-gray img-fluid shadow" id="ProPic" src="{{productDetails.productImage}}">
+                </div>
+              </div>
+              <div class="form-group  col-lg-6 hight100 text-center">
+                <label>
+                  Asset Qrcode
+                </label>
+                <div class="custom-file hight100 mb-5">
+                  <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1">
+                      <qrcode id="qrcodeImage" [qrdata]="productDetails.qrCode" [elementType]="elementType" [width]="175"
+                        [errorCorrectionLevel]="'M'"></qrcode>
+                      <div class="el-overlay">
+                        <ul class="list-style-none el-info">
+                          <li class="el-item">
+                            <a [href]="href" (click)="onImageDownload()" class="btn default btn-lg btn-outline el-link"
+                              target="_blank">
+                              <i class="mdi mdi-download">
+                              </i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Asset Name</h5>
+              <h4 class="text-muted text-bold-600"> {{productDetails.productName}}</h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">QR Code</h5>
+              <h4 class="text-muted text-bold-600"> {{productDetails.qrCode }}</h4>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Description</h5>
+              <h4 class="text-muted text-bold-600"> {{productDetails.description}}</h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Tag</h5>
+              <h4 class="text-muted text-bold-600"> {{productDetails.tag}}</h4>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Serial No</h5>
+              <h4 class="text-muted text-bold-600"> {{(productDetails.serialNo != null ? productDetails.serialNo :
+                "--")}}</h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Production No</h5>
+              <h4 class="text-muted text-bold-600"> {{(productDetails.productionNo != null ? productDetails.productionNo
+                : "--")}}</h4>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Production Date</h5>
+              <h4 class="text-muted text-bold-600"> {{(productDetails.productionDate != null ?
+                productDetails.productionDate : "--")}}</h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Warranty Date</h5>
+              <h4 class="text-muted text-bold-600"> {{(productDetails.warrantyDate != null ? productDetails.warrantyDate
+                : "--")}}</h4>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Status</h5>
+              <h4 class="text-muted text-bold-600"> {{(productDetails.status != null ? productDetails.status : "--")}}
+              </h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Asset Category</h5>
+              <div *ngIf="productDetails.productCat != ''">
+                <h4 class="text-muted text-bold-600" *ngFor="let product_Cat of productCatList;">
+                  {{(productDetails.productCat == product_Cat.productCategoryID ? product_Cat.productCategotryName :
+                  "")}}
+                </h4>
+              </div>
+              <div *ngIf="productDetails.productCat == ''">
+                <h4 class="text-muted text-bold-600">{{"--"}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body form-row">
+
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Asset Sub Category</h5>
+              <h4 class="text-muted text-bold-600" *ngFor="let product_subCat of selectedProductSubCatItems;">
+                {{(product_subCat.name != null ? product_subCat.name : "--")}}
+              </h4>
+            </div>
+            <div class="col-lg-6 form-group">
+              <h5 class="text-bold-600">Asset Relations</h5>
+              <h4 class="text-muted text-bold-600" *ngIf="selectedProductItems != ''">
+                <div *ngFor="let product_ of selectedProductItems;">
+                  {{(product_.productName != '' ? product_.productName : "--")}}</div>
+              </h4>
+              <h4 class="text-muted text-bold-600" *ngIf="selectedProductItems == ''">{{"--"}}</h4>
+            </div>
+          </div>
+
+          <table id="tblAdd" class="table table-hover table-bordered no-wrap v-middle ">
+            <thead class="col-lg-6 form-group">
+              <tr>
+                <th class="border-bottom-0 text-bold-600">Attribute Key</th>
+                <th class="border-bottom-0 text-bold-600">Attribute Value</th>
+                <th class="border-bottom-0 text-bold-600">Attribute Key</th>
+                <th class="border-bottom-0 text-bold-600">Attribute Value</th>
+              </tr>
+            </thead>
+            <tbody class="ng-untouched ng-pristine ng-valid">
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey1 != "" ?
+                    productDetails.attributeKey1 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue1 != "" ?
+                    productDetails.attributeValue1 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey2 != "" ?
+                    productDetails.attributeKey2 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue2 != "" ?
+                    productDetails.attributeValue2 : "--")}}</h4>
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey3 != "" ?
+                    productDetails.attributeKey3 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue3 != "" ?
+                    productDetails.attributeValue3 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey4 != "" ?
+                    productDetails.attributeKey4 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue4 != "" ?
+                    productDetails.attributeValue4 : "--")}}</h4>
+                </td>
+
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey5 != "" ?
+                    productDetails.attributeKey5 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue5 != "" ?
+                    productDetails.attributeValue5 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey6 != "" ?
+                    productDetails.attributeKey6 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue6 != "" ?
+                    productDetails.attributeValue6 : "--")}}</h4>
+                </td>
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey7 != "" ?
+                    productDetails.attributeKey7 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue7 != "" ?
+                    productDetails.attributeValue7 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey8 != "" ?
+                    productDetails.attributeKey8 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue8 != "" ?
+                    productDetails.attributeValue8 : "--")}}</h4>
+                </td>
+              </tr>
+              <tr class="ng-untouched ng-pristine ng-valid">
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey9 != "" ?
+                    productDetails.attributeKey9 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue9 != "" ?
+                    productDetails.attributeValue9 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeKey10 != "" ?
+                    productDetails.attributeKey10 : "--")}}</h4>
+                </td>
+                <td>
+                  <h4 class="text-muted text-bold-600">{{(productDetails.attributeValue10 != "" ?
+                    productDetails.attributeValue10 : "--")}}</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

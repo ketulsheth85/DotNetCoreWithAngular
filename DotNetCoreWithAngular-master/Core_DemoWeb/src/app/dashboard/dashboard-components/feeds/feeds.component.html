@@ -1,0 +1,21 @@
+
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-lg-3 col-md-6" *ngFor='let feed of feeds'>
+        <div class="card {{feed.class}}">
+            <div class="card-body shadow " [routerLink]="feed.path">
+                <div id="myCarousel" data-ride="carousel" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active flex-column">
+                            <i class="{{feed.icon}} font-24 d-flex text-white">
+                                <p class="text-white">{{(feed.count !=''? feed.count: 0)}}</p>
+                            </i>
+                            <h3 class="text-white font-medium">{{feed.title}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

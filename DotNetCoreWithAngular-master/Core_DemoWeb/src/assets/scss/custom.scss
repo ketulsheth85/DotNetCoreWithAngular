@@ -1,0 +1,33 @@
+// In this scss you can overwrite all our scss, we suggested you to add your scss into this, so whenever the update comes it will not affect your code.
+.bg-Custome {
+    background-color: #041f3e;
+}
+.text-bold-600{
+    font-weight: 600;
+}
+.lable_form
+{
+    display: grid;
+}
+
+.ngx-datatable.material {
+  background: #fff;
+  box-shadow: none !important;
+}
+.text-info{
+  color: #616161 !important;
+}
+.text-danger{
+  color: #616161 !important;
+}
+.ngx-datatable.material:not(.cell-selection)
+.datatable-body-row:hover,
+.ngx-datatable.material:not(.cell-selection)
+.datatable-body-row:hover
+.datatable-row-group {
+  background-color: #fff;
+  transition-property: background;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  box-shadow: 1px 0px 1px 0px #bdbcbc10, 0px 1px 6px 0px #b1b1b117!important;
+}

@@ -1,0 +1,94 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+          <div class="row">
+            <div class="col-lg-8 col-6">
+              <h5 class="m-b-0 text-white">Product Details</h5>
+            </div>
+            <div class="col-lg-4 col-6 float-right">
+              <a routerLink="/component/productmasterform" class="text-white float-right"><i class="fas fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+                        placeholder="Type to filter the columns" (keyup)="updateFilter($event)" />
+
+                    <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [scrollbarH]="scrollBarHorizontal"
+                    [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="productList">
+                        <ngx-datatable-column name="Product Name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Product Image">
+                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <img class="img-responsive img-md" [src]="row.productImage"/>
+                        </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Qr Code"></ngx-datatable-column>
+                        <ngx-datatable-column name="Serial No"></ngx-datatable-column>
+                        <ngx-datatable-column name="Production No"></ngx-datatable-column>
+                        <ngx-datatable-column name="Production Date">
+                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span>{{row.productionDate| date:'dd/MM/yyyy'}}</span>
+                        </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Actions" [sortable]="false">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <a (click)="editViewRow(row,0)" *ngIf="row.isAssigned == 0" title="" class="text-inverse "
+                                    style="text-align: right;">
+                                    <i class="far fa-edit text-info"></i>
+                                </a>
+                                <a (click)="editViewRow(row,1)" title="" class="text-inverse "
+                                style="margin: 0 0 0 10px;text-align: right;">
+                                    <i class="fas fa-eye text-info"></i>
+                                </a>
+                                <a (click)="deleteRecord(row)" *ngIf="row.isAssigned == 0" title="" class="text-inverse "
+                                    style="margin: 0 0 0 10px;text-align: right;">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </a>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+            <!-- <table class="table table-bordered table-striped mb-0 no-wrap v-middle" *ngIf="productList">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Qrcode</th>
+                  <th>Product Image</th>
+                  <th>Serial No.</th>
+                  <th>Production No.</th>
+                  <th>Production Date</th>
+                 <th style="text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pr of productList">
+                  <td>{{ pr.productName }}</td>
+                  <td>{{ pr.qrCode }}</td>
+                  <td>
+                  <img  class="img-responsive img-md" src="{{ pr.productImage }}">
+                  </td>
+                  <td>{{ pr.serialNo }}</td>
+                  <td>{{ pr.productionNo }}</td>
+                  <td>{{ pr.productionDate|date:'dd/MM/yyyy' }}</td>
+                 
+                  <td align="center">
+                    <a (click)="editRow(pr)" title="" data-toggle="tooltip"
+                      data-original-title="Delete" class="text-inverse ">
+                      <i class="far fa-edit text-info"></i>
+                    </a>
+                    <a  (click)="deleteRecord(pr)" title="" data-toggle="tooltip"
+                      data-original-title="Delete" class="text-inverse " style="margin: 0 0 0 10px;">
+                      <i class="fas fa-trash-alt text-danger"></i>
+                    </a>
+                  </td>
+                </tr>
+               
+              </tbody>
+            </table> -->
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>

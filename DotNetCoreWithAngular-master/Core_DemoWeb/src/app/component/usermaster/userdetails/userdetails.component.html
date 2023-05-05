@@ -1,0 +1,81 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+          <div class="row">
+            <div class="col-lg-8 col-6">
+              <h5 class="m-b-0 text-white">User Details</h5>
+            </div>
+            <div class="col-lg-4 col-6 float-right">
+              <a routerLink="/component/userforms" class="text-white float-right"><i class="fas fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+            placeholder="Type to filter the columns"
+            (keyup)="updateFilter($event)" />
+
+          <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+          [scrollbarH]="scrollBarHorizontal" rowHeight="auto" [limit]="10" [rows]="forecasts">
+            <ngx-datatable-column name="Full Name"></ngx-datatable-column>
+            <ngx-datatable-column name="User EmailId"></ngx-datatable-column>
+            <ngx-datatable-column name="Department"></ngx-datatable-column>
+            <ngx-datatable-column name="Role Name"></ngx-datatable-column>
+            <ngx-datatable-column name="Company Name"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Actions" [sortable]="false" style="float: right;">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <a (click)="editViewRow(row,0)" title="" class="text-inverse ">
+                  <i class="far fa-edit text-info"></i>
+                </a>
+                <a (click)="editViewRow(row,1)" title="" class="text-inverse " style="margin: 0 0 0 10px;">
+                  <i class="fas fa-eye text-info"></i>
+                </a>
+                <a (click)="deleteRecord(row)" title="" class="text-inverse " style="margin: 0 0 0 10px;">
+                  <i class="fas fa-trash-alt text-danger"></i>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+            <!-- <table class="table table-bordered table-striped mb-0 no-wrap v-middle" *ngIf="forecasts">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Department</th>
+                  <th>Role</th>
+                  <th>Company Name</th>
+                 <th style="text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fr of forecasts">
+                  <td>{{ fr.fullName }}</td>
+                  <td>{{ fr.userEmailId }}</td>
+                  <td>{{ fr.department }}</td>
+                  <td>{{ fr.roleName }}</td>
+                  <td>{{ fr.companyName }}</td>
+
+                  <td align="center">
+                    <a (click)="editRow(fr)" title="" data-toggle="tooltip"
+                      data-original-title="Delete" class="text-inverse ">
+                      <i class="far fa-edit text-info"></i>
+                    </a>
+                    <a  (click)="deleteRecord(fr)" title="" data-toggle="tooltip"
+                      data-original-title="Delete" class="text-inverse " style="margin: 0 0 0 10px;">
+                      <i class="fas fa-trash-alt text-danger"></i>
+                    </a>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table> -->
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

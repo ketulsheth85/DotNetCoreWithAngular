@@ -1,0 +1,187 @@
+USE [QRON]
+GO
+/****** Object:  StoredProcedure [dbo].[CRUDProductMaster]    Script Date: 22-03-2021 12:45:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[CRUDProductMaster]
+	@ProductId INT = 0,
+	@ProductName NVARCHAR(50) = '',
+	@ProductImage NVARCHAR(255) = '',
+	@QrCode NVARCHAR(255) = '',
+	@Description NVARCHAR(1000) = '',
+	@Tag NVARCHAR(255) = '',
+	@SerialNo NVARCHAR(100) = '',
+	@ProductionNo NVARCHAR(100) = '',
+	@ProductionDate DATETIME = NULL,
+	@WarrantyDate DATETIME = NULL,
+	@Status NVARCHAR(50) = '',
+	@RelationSubCat VARCHAR(50) = '',
+	@AttributeKey1 NVARCHAR(50) = '',
+	@AttributeValue1 NVARCHAR(255) = '',
+	@AttributeKey2 NVARCHAR(50) = '',
+	@AttributeValue2 NVARCHAR(255) = '',
+	@AttributeKey3 NVARCHAR(50) = '',
+	@AttributeValue3 NVARCHAR(255) = '',
+	@AttributeKey4 NVARCHAR(50) = '',
+	@AttributeValue4 NVARCHAR(255) = '',
+	@AttributeKey5 NVARCHAR(50) = '',
+	@AttributeValue5 NVARCHAR(255) = '',
+	@AttributeKey6 NVARCHAR(50) = '',
+	@AttributeValue6 NVARCHAR(255) = '',
+	@AttributeKey7 NVARCHAR(50) = '',
+	@AttributeValue7 NVARCHAR(255) = '',
+	@AttributeKey8 NVARCHAR(50) = '',
+	@AttributeValue8 NVARCHAR(255) = '',
+	@AttributeKey9 NVARCHAR(50) = '',
+	@AttributeValue9 NVARCHAR(255) = '',
+	@AttributeKey10 NVARCHAR(50) = '',
+	@AttributeValue10 NVARCHAR(255) = '',
+	@CompanyId INT = 0,
+	@LoginUserID INT = 0,
+	@IsActive INT = 1,
+	@IsCompanyFlag int = 0,
+	@Op INT -- 1 : INSERT, 2 : UPDATE, 3 : DELETE, 4 : SELECT, 5 : Acitve/InActive
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRY
+
+		IF(@Op = 1)
+		BEGIN
+			INSERT INTO [dbo].[ProductMaster](ProductName,ProductImage,QrCode,[Description],Tag,SerialNo,ProductionNo,ProductionDate,WarrantyDate,[Status],
+			RelationSubCat,AttributeKey1,AttributeValue1,AttributeKey2,AttributeValue2,AttributeKey3,AttributeValue3,AttributeKey4,AttributeValue4,
+			AttributeKey5,AttributeValue5,AttributeKey6,AttributeValue6,AttributeKey7,AttributeValue7,AttributeKey8,AttributeValue8,AttributeKey9,
+			AttributeValue9,AttributeKey10,AttributeValue10,CompanyId,IsActive,IsDelete,CreatedBy,CreatedDate)
+			VALUES (@ProductName,@ProductImage,@QrCode,@Description,@Tag,@SerialNo,@ProductionNo,@ProductionDate,@WarrantyDate,@Status,@RelationSubCat,
+			@AttributeKey1,@AttributeValue1,@AttributeKey2,@AttributeValue2,@AttributeKey3,@AttributeValue3,@AttributeKey4,@AttributeValue4,
+			@AttributeKey5,@AttributeValue5,@AttributeKey6,@AttributeValue6,@AttributeKey7,@AttributeValue7,@AttributeKey8,@AttributeValue8,
+			@AttributeKey9,@AttributeValue9,@AttributeKey10,@AttributeValue10,@CompanyId,1,0,@LoginUserID,GETDATE())
+		END
+		ELSE IF(@Op = 2)
+		BEGIN
+			UPDATE [dbo].[ProductMaster] SET
+				   ProductName = @ProductName,
+				   ProductImage = @ProductImage,
+				   QrCode = @QrCode,
+				   [Description] = @Description,
+				   Tag = @Tag,
+				   SerialNo = @SerialNo,
+				   ProductionNo = @ProductionNo,
+				   ProductionDate = @ProductionDate,
+				   WarrantyDate = @WarrantyDate,
+				   [Status] = @Status,
+				   RelationSubCat = @RelationSubCat,
+				   AttributeKey1 = @AttributeKey1,
+				   AttributeValue1 = @AttributeValue1,
+				   AttributeKey2 = @AttributeKey2,
+				   AttributeValue2 = @AttributeValue2,
+				   AttributeKey3 = @AttributeKey3,
+				   AttributeValue3 = @AttributeValue3,
+				   AttributeKey4 = @AttributeKey4,
+				   AttributeValue4 = @AttributeValue4,
+				   AttributeKey5 = @AttributeKey5,
+				   AttributeValue5 = @AttributeValue5,
+				   AttributeKey6 = @AttributeKey6,
+				   AttributeValue6 = @AttributeValue6,
+				   AttributeKey7 = @AttributeKey7,
+				   AttributeValue7 = @AttributeValue7,
+				   AttributeKey8 = @AttributeKey8,
+				   AttributeValue8 = @AttributeValue8,
+				   AttributeKey9 = @AttributeKey9,
+				   AttributeValue9 = @AttributeValue9,
+				   AttributeKey10 = @AttributeKey10,
+				   AttributeValue10 = @AttributeValue10,
+				   CompanyId = @CompanyId,
+				   IsActive = @IsActive,
+				   UpdatedBy = @LoginUserID,
+				   UpdatedDate = GETDATE()
+			WHERE ProductId = @ProductId
+		END
+		ELSE IF(@Op = 3)
+		BEGIN
+			UPDATE [dbo].[ProductMaster] SET
+				  IsDelete = 1,
+				  UpdatedBy = @LoginUserID,
+				  UpdatedDate = GETDATE()
+			WHERE ProductId = @ProductId
+		END
+		ELSE IF(@Op = 5)
+		BEGIN
+			UPDATE [dbo].[ProductMaster] SET
+				  @IsActive = @IsActive,
+				  UpdatedBy = @LoginUserID,
+				  UpdatedDate = GETDATE()
+			WHERE ProductId = @ProductId
+		END
+		ELSE IF(@Op = 4)
+		BEGIN
+		SELECT PM.ProductId,
+			   PM.ProductName,
+			   PM.ProductImage,
+			   PM.QrCode,
+			   PM.[Description],
+			   PM.Tag,
+			   PM.SerialNo,
+			   PM.ProductionNo,
+			   PM.ProductionDate,
+			   PM.WarrantyDate,
+			   PM.[Status],
+			   PM.RelationSubCat,
+			   PM.AttributeKey1,
+			   PM.AttributeValue1,
+			   PM.AttributeKey2,
+			   PM.AttributeValue2,
+			   PM.AttributeKey3,
+			   PM.AttributeValue3,
+			   PM.AttributeKey4,
+			   PM.AttributeValue4,
+			   PM.AttributeKey5,
+			   PM.AttributeValue5,
+			   PM.AttributeKey6,
+			   PM.AttributeValue6,
+			   PM.AttributeKey7,
+			   PM.AttributeValue7,
+			   PM.AttributeKey8,
+			   PM.AttributeValue8,
+			   PM.AttributeKey9,
+			   PM.AttributeValue9,
+			   PM.AttributeKey10,
+			   PM.AttributeValue10,
+			   PM.CompanyId,
+			   CM.CompanyName,
+			   PM.IsActive,
+			   PM.IsDelete,
+			   PM.CreatedBy,
+			   PM.CreatedDate,
+			   PM.UpdatedBy,
+			   PM.UpdatedDate   
+		FROM [dbo].[ProductMaster] PM (NOLOCK)  
+			 INNER JOIN [dbo].[CompanyMaster] CM (NOLOCK) ON PM.CompanyID = CM.CompanyID
+			 
+		WHERE ((@IsCompanyFlag = 0 and PM.ProductId = ISNULL(NULLIF(@ProductId,0),PM.ProductId))
+		OR (@IsCompanyFlag = 1 and PM.ProductId = ISNULL(NULLIF(@ProductId,0),PM.ProductId)
+		AND PM.CompanyId = @CompanyId))
+		AND PM.IsDelete = 0;
+
+		select ProductSubCategoryId,ProdcuctCategoryId,Name from  ProductSubCategory PS
+		END
+	END TRY
+	BEGIN CATCH
+		
+		DECLARE @ErrorMessage NVARCHAR(MAX),@ErrorSeverity INT,@ErrorNumber INT,@ErrorState INT,@ErrorProcedure NVARCHAR(MAX),@ErrorLine INT,@ErrorTime DATETIME;
+
+		SELECT  @ErrorMessage = ERROR_MESSAGE(),
+				@ErrorSeverity = ERROR_SEVERITY(),
+				@ErrorNumber = ERROR_NUMBER(),
+				@ErrorState = ERROR_STATE(),
+				@ErrorProcedure= ERROR_PROCEDURE(),
+				@ErrorLine = ERROR_LINE(),
+				@ErrorTime = CURRENT_TIMESTAMP      
+
+		EXEC dbo.InsertErrorLog @ErrorMessage,@ErrorSeverity,@ErrorNumber,@ErrorState,@ErrorProcedure,@ErrorLine,@ErrorTime,@Op
+					     
+	END CATCH 
+END

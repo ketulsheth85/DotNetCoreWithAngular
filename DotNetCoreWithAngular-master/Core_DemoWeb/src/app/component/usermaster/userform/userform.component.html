@@ -1,0 +1,199 @@
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <div class="card">
+      <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+        <div class="row">
+          <div class="col-lg-8 col-6">
+            <h5 class="m-b-0 text-white">User Form</h5>
+          </div>
+          <div class="col-lg-4 col-6 float-right">
+            <a routerLink="/component/usermaster" class="text-white float-right"><i class="mdi mdi-eye"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="mode=='Edit'">
+        <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+          <input type="hidden" name="paymentDetailId" />
+          <div class="form-row">
+
+            <div class="form-group col-md-6">
+              <label>First Name</label>
+              <input class="form-control form-control-md" id="firstName" #firstName="ngModel" placeholder="First Name"
+                name="firstName" ngModel="{{userdetail.firstName}}" required />
+              <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert-danger">
+                <div *ngIf="firstName.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter first name.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Last Name</label>
+              <input class="form-control form-control-md" placeholder="Last Name" name="lastName" id="lastName"
+                #lastName="ngModel" ngModel="{{userdetail.lastName}}" required />
+              <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert-danger">
+                <div *ngIf="lastName.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter last name.</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>User Name</label>
+              <input class="form-control form-control-md" placeholder="User Name" id="userName" #userName="ngModel"
+                name="userName" ngModel="{{userdetail.userName}}" required>
+              <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="alert-danger">
+                <div *ngIf="userName.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter user name.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>User Email</label>
+              <input class="form-control form-control-md" placeholder="User Email" name="userEmailId"
+                #userEmailId="ngModel" ngModel="{{userdetail.userEmailId}}" email required />
+              <div *ngIf="userEmailId.invalid && (userEmailId.dirty || userEmailId.touched)" class="alert-danger">
+                <div *ngIf="userEmailId.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter email.</div>
+                <div *ngIf="userEmailId.errors?.email" class="alert alert-danger p-2" role="alert">
+                  Please enter email correctly.</div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group col-md-6">
+                            <label>Password</label>
+                            <input class="form-control form-control-md" type="password" placeholder="Password" id="password" minlength="8" maxlength="15"
+                                #password="ngModel" name="password" ngModel="{{userdetail.password}}" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,}$" required>
+                            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
+                                <div *ngIf="password.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please enter password.</div>
+                                    <div *ngIf="password.errors?.minlength" class="alert alert-danger p-2" role="alert">
+                                        Password must be at least 8 characters long.
+                                    </div>
+                                        <div *ngIf="password.errors?.pattern && !password.errors?.minlength" class="alert alert-danger p-2" role="alert">
+                                            Password must contain at list one letter and one digit.
+                                        </div>
+                            </div>
+                        </div> -->
+            <div class="form-group col-md-6">
+              <label>Phone No</label>
+              <input class="form-control form-control-md" placeholder="Phone No" name="phoneNo" #phoneNo="ngModel"
+                ngModel="{{userdetail.phoneNo}}" required />
+              <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="alert-danger">
+                <div *ngIf="phoneNo.errors?.required" class="alert alert-danger p-2" role="alert">
+                  Please enter phone no.</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Mobile</label>
+              <input class="form-control form-control-md" placeholder="Mobile" name="mobile"
+                ngModel="{{userdetail.mobile}}" />
+            </div>
+            <div class="form-group col-md-6" *ngIf="userData.companyLevel != 2">
+                <label>Company Name</label>
+                <select class="form-control form-control-md" id="selectCompanyId" name="selectCompanyId"
+                  #selectCompanyId="ngModel" (change)="onCompanyChange($event)" ngModel="{{userdetail.selectCompanyId}}">
+                  <option value="" selected="selected">Select Company</option>
+                  <option *ngFor="let company of companydetail" ngModel="{{company.companyID}}"
+                    [value]="company.companyID">{{company.companyName}}
+                  </option>
+                </select>
+                <input type="hidden" name="companyId" ngModel="{{userdetail.companyId}}">
+              </div>
+            <div class="form-group col-md-6">
+              <label>Location</label>
+              <!-- <input class="form-control form-control-md" placeholder="Location" name="userLocation"
+                #userLocation="ngModel" ngModel="{{userdetail.userLocation}}" /> -->
+                <select class="form-control form-control-md" id="selectLocationId" name="selectLocationId"
+                #selectLocationId="ngModel" (change)="onLocationChange($event)" ngModel="{{userdetail.selectLocationId}}">
+                    <option value="" selected="selected">Select Location</option>
+                    <option *ngFor="let location of loactionList;" ngModel="{{location.locationId}}"
+                    [value]="location.locationId">{{location.locationName}}</option>
+                </select>
+                <input type="hidden" name="locationId" ngModel="{{userdetail.locationId}}">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Department</label>
+              <input class="form-control form-control-md" placeholder="Department" name="department"
+                ngModel="{{userdetail.department}}" />
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Role</label>
+              <select class="form-control form-control-md" id="selectedRoleId" name="selectedRoleId"
+                #selectedRoleId="ngModel" ngModel="{{userdetail.selectedRoleId }}" (change)="onRoleChange($event)">
+                <option value="" selected>Select Role
+                <option *ngFor="let role of roledetail" [value]="role.roleId">{{role.roleName}}
+                </option>
+              </select>
+              <input type="hidden" name="roleId" ngModel="{{userdetail.roleId}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="userId" ngModel="{{userdetail.userId}}">
+            <button class="btn btn-info btn-md" type="submit" [ngStyle]="setMyBgColor(userData.colorCode)"
+              [disabled]="form.invalid">SUBMIT</button>
+            <!-- <button class="btn btn-secondary btn-md ml-2" type="reset">CANCEL</button> -->
+            <a routerLink="/component/usermaster" class="btn btn-secondary btn-md ml-2 text-white">CANCEL</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-body" *ngIf="mode=='View'">
+        <form autocomplete="off" #form="ngForm" >
+          <input type="hidden" name="paymentDetailId" />
+          <div class="form-row">
+            <div class="col-md-6 lable_form">
+                <h5 class="text-bold-600">First Name</h5>
+                <h4 class="text-muted text-bold-600">{{userdetail.firstName}}</h4>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-bold-600">Last Name</h5>
+                <h4 class="text-muted text-bold-600">{{userdetail.lastName}}</h4>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 lable_form">
+                <h5 class="text-bold-600">User Name</h5>
+                <h4 class="text-muted text-bold-600">{{userdetail.userName}}</h4>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-bold-600">User Email</h5>
+                <h4 class="text-muted text-bold-600">{{userdetail.userEmailId}}</h4>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 lable_form">
+                <h5 class="text-bold-600">Phone No</h5>
+                <h4 class="text-muted text-bold-600">{{userdetail.phoneNo}}</h4>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-bold-600">Mobile</h5>
+                <h4 class="text-muted text-bold-600">{{(userdetail.mobile != null ? userdetail.mobile : "--")}}</h4>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 lable_form">
+                <h5 class="text-bold-600">Company Name</h5>
+                <h4 class="text-muted text-bold-600">{{(userdetail.companyName != null ? userdetail.companyName : "--")}}</h4>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-bold-600">Location</h5>
+                <h4 class="text-muted text-bold-600">{{(userdetail.locationName != null ? userdetail.locationName : "--") }}</h4>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 lable_form">
+                <h5 class="text-bold-600">Department</h5>
+                <h4 class="text-muted text-bold-600">{{(userdetail.department != "" ? userdetail.department : "--")}}</h4>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-bold-600">Role</h5>
+                <h4 class="text-muted text-bold-600">{{(userdetail.roleName != null ? userdetail.roleName : "--")}}</h4>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

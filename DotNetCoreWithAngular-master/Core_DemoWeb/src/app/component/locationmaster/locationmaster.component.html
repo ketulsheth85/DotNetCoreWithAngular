@@ -1,0 +1,228 @@
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+                <div class="row">
+                    <div class="col-lg-8 col-6">
+                        <h5 class="m-b-0 text-white">Location Master Details</h5>
+                    </div>
+                    <div class="col-lg-4 col-6 float-right">
+                        <a (click)="open(content,0)" class="text-white float-right"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+                        placeholder="Type to filter the columns" (keyup)="updateFilter($event)" />
+
+                    <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                    [scrollbarH]="scrollBarHorizontal" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="loactionList">
+                        <ngx-datatable-column name="locationName"></ngx-datatable-column>
+                        <ngx-datatable-column name="locationCode"></ngx-datatable-column>
+                        <ngx-datatable-column name="locationAddress"></ngx-datatable-column>
+                        <ngx-datatable-column name="city"></ngx-datatable-column>
+                        <ngx-datatable-column name="zip"></ngx-datatable-column>
+                        <ngx-datatable-column name="country"></ngx-datatable-column>
+                        <ngx-datatable-column name="phoneNo"></ngx-datatable-column>
+                        <ngx-datatable-column name="Company Name">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Actions" [sortable]="false" style="float: right;">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <a (click)="editViewRow(row,content,0)" title="" class="text-inverse ">
+                                    <i class="far fa-edit text-info"></i>
+                                </a>
+                                <a (click)="editViewRow(row,content,1)" title="" class="text-inverse "
+                                    style="margin: 0 0 0 10px;">
+                                    <i class="fas fa-eye text-info"></i>
+                                </a>
+                                <a (click)="deleteRecord(row)" title="" class="text-inverse "
+                                    style="margin: 0 0 0 10px;">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </a>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal >
+        <div *ngIf="mode=='Edit'">
+            <div class="modal-header" [ngStyle]="setMyBgColor(userData.colorCode)">
+                <h4 class="modal-title" id="modal-basic-title">Add Location</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-lg-6" *ngIf="this.userData.companyLevel < this.CompanyInsertLevel">
+                            <div class="form-group">
+                                <label for="companyId">Company Name</label>
+                                <select id="companyId" class="form-control" (change)="onProducCatChange($event)"
+                                    name="companyId" #companyId="ngModel" ngModel="{{loactionData.companyId}}" required>
+                                    <option value="0" selected="selected">Select company name</option>
+                                    <option *ngFor="let comp of companyList;" value="{{comp.companyID}}">
+                                        {{comp.companyName }}</option>
+                                </select>
+                                <div *ngIf="companyId.value != '0' && companyId.invalid && (companyId.dirty || companyId.touched)"
+                                    class="alert-danger">
+                                    <div *ngIf="companyId.errors?.required" class="alert alert-danger p-2" role="alert">
+                                        Please select company name.</div>
+                                </div>
+                                <input type="hidden" id="companyId" name="companyId" #companyId="ngModel"
+                                    ngModel={{loactionData.companyId}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="locationName">Location Name</label>
+                                <input type="text" class="form-control" id="locationName" name="locationName" required
+                                    placeholder="Location Name" #locationName="ngModel"
+                                    [ngModel]="loactionData.locationName">
+                                <div *ngIf="locationName.value != '0' && locationName.invalid && (locationName.dirty || locationName.touched)"
+                                    class="alert-danger">
+                                    <div *ngIf="locationName.errors?.required" class="alert alert-danger p-2" role="alert">
+                                        Please select loaction name.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                           <div class="form-group">
+                                <label for="locationCode">Location Code</label>
+                                <input id="locationCode" class="form-control" placeholder="Location Code"
+                                    name="locationCode" #locationCode="ngModel" [ngModel]="loactionData.locationCode"
+                                    required>
+                                <div *ngIf="locationCode.invalid && (locationCode.dirty || locationCode.touched)"
+                                    class="alert-danger">
+                                    <div *ngIf="locationCode.errors?.required" class="alert alert-danger p-2" role="alert">
+                                        Please enter location code.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="locationAddress">Location Address</label>
+                                <textarea id="locationAddress" class="form-control" placeholder="Location Address"
+                                    style="height:150px" name="locationAddress" #locationAddress="ngModel"
+                                    ngModel="{{loactionData.locationAddress}}" required>
+                                </textarea>
+                                <div *ngIf="locationAddress.invalid && (locationAddress.dirty || locationAddress.touched)"
+                                    class="alert-danger">
+                                    <div *ngIf="locationAddress.errors?.required" class="alert alert-danger p-2"
+                                        role="alert">
+                                        Please enter location address.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input id="city" class="form-control" placeholder="City" name="city" #city="ngModel"
+                                    [ngModel]="loactionData.city" required>
+                                <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert-danger">
+                                    <div *ngIf="city.errors?.required" class="alert alert-danger p-2" role="alert">
+                                        Please enter city name.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="zip">Zip</label>
+                                <input type="text" id="zip" class="form-control" placeholder="Zip" name="zip" #zip="ngModel"
+                                    ngModel="{{loactionData.zip}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input id="country" class="form-control" placeholder="Country" name="country"
+                                    #country="ngModel" [ngModel]="loactionData.country">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="phoneNo">Phone Number</label>
+                                <input type="text" id="phoneNo" class="form-control" placeholder="Phone No" name="phoneNo" #phoneNo="ngModel"
+                                    ngModel="{{loactionData.phoneNo}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="locationId" name="locationId" #locationId="ngModel" ngModel={{loactionData.locationId}} />
+                    <button type="submit" class="btn btn-success" [ngStyle]="setMyBgColor(userData.colorCode)"
+                    [disabled]="form.invalid">Save</button>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="mode=='View'">
+            <div class="modal-header" [ngStyle]="setMyBgColor(userData.colorCode)" >
+                <h4 class="modal-title" id="modal-basic-title">View Location</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form autocomplete="off" #form="ngForm" >
+                <div class="modal-body ">
+                    <div class="row">
+                        <!-- <div class="col-lg-6" *ngIf="userData.isCompanyFlag == 0">
+                            <div class="form-group">
+                                <label for="companyId">Company Name</label>
+                                <select id="companyId" class="form-control" (change)="onProducCatChange($event)"
+                                    name="companyId" #companyId="ngModel" ngModel="{{loactionData.companyId}}" required>
+                                    <option value="0" selected="selected">Select company name</option>
+                                    <option *ngFor="let comp of companyList;" value="{{comp.companyID}}">
+                                        {{comp.companyName }}</option>
+                                </select>
+                                <div *ngIf="companyId.value != '0' && companyId.invalid && (companyId.dirty || companyId.touched)"
+                                    class="alert-danger">
+                                    <div *ngIf="companyId.errors?.required" class="alert alert-danger p-2" role="alert">
+                                        Please select company name.</div>
+                                </div>
+                                <input type="hidden" id="companyId" name="companyId" #companyId="ngModel"
+                                    ngModel={{loactionData.companyId}} />
+                            </div>
+                        </div>   -->
+                        <div class="col-lg-6 form-group" >
+                                <h5 class="text-bold-600">Company Name</h5>
+                                <h4 class="text-muted text-bold-600"> {{loactionData.companyName }}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Location Name</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.locationName != null ?loactionData.locationName: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Location Code</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.locationCode != null ?loactionData.locationCode: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Location Address</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.locationAddress != null ?loactionData.locationAddress: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">City</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.city != null ?loactionData.city: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Zip</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.zip != null ?loactionData.zip: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Country</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.country != null ?loactionData.country: "--")}}</h4>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Phone Number</h5>
+                            <h4 class="text-muted text-bold-600">{{(loactionData.phoneNo != null ?loactionData.phoneNo: "--")}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+</div>

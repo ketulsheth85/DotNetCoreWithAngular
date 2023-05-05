@@ -1,0 +1,88 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+                <div class="row">
+                    <div class="col-lg-8 col-6">
+                        <h5 class="m-b-0 text-white">Document Category Details</h5>
+                    </div>
+                    <div class="col-lg-4 col-6 float-right">
+                        <a (click)="open(content,0)" class="text-white float-right"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+                        placeholder="Type to filter the columns" (keyup)="updateFilter($event)" />
+                    <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                    [scrollbarH]="scrollBarHorizontal" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="documentCatList">
+                        <ngx-datatable-column name="DocumentCatName" title="Category Name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Company Name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Actions" [sortable]="false" style="float: right;">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <a (click)="editViewRow(row,content,0)" *ngIf="row.isAssigned == 0"  title="" class="text-inverse ">
+                                    <i class="far fa-edit text-info"></i>
+                                </a>
+                                <a (click)="editViewRow(row,content,1)" title="" class="text-inverse "
+                                    style="margin: 0 0 0 10px;">
+                                    <i class="fas fa-eye text-info"></i>
+                                </a>
+                                <a (click)="deleteRecord(row)" *ngIf="row.isAssigned == 0"  title="" class="text-inverse "
+                                    style="margin: 0 0 0 10px;">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </a>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header" [ngStyle]="setMyBgColor(userData.colorCode)" [ngStyle]="setMyBgColor(userData.colorCode)">
+            <h4 class="modal-title" id="modal-basic-title">Document Category</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div *ngIf="mode=='Edit'">
+            <form autocomplete="off" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="prCatName">Category Name</label>
+                        <input id="documentCatName" class="form-control" placeholder="Category Name" name="documentCatName"
+                            #documentCatName="ngModel" ngModel="{{documentCat.documentCatName}}" required />
+                        <div *ngIf="documentCatName.invalid && (documentCatName.dirty || documentCatName.touched)"
+                            class="alert-danger">
+                            <div *ngIf="documentCatName.errors?.required" class="alert alert-danger p-2" role="alert">Please
+                                enter category name.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="documentCatId" name="documentCatId" #documentCatId="ngModel"
+                        ngModel={{documentCat.documentCatId}} />
+                    <button type="submit" class="btn btn-success" [ngStyle]="setMyBgColor(userData.colorCode)"
+                    [disabled]="form.invalid" >Save</button>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="mode=='View'">
+            <form autocomplete="off" #form="ngForm" >
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-lg-6 form-group">
+                            <h5 class="text-bold-600">Category Name</h5>
+                            <h4 class="text-muted text-bold-600"> {{documentCat.documentCatName}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,37 @@
+/* body ul#sidebarnav {
+	display: block !important;
+  }
+  body ul#calendar {
+	display: none !important;
+  } */
+  .light-logo {
+    width: 44px !important;
+    height: 36px;
+}
+
+@media (min-width:576px){
+      .light-logo {
+        width: 44px !important;
+        height: 36px;
+    }
+}
+@media(min-width:768px) {
+  .light-logo {
+    width: 44px !important;
+    height: 36px;
+}
+}
+
+@media(min-width:992px) {
+  .light-logo {
+    width: 44px !important;
+    height: 36px;
+}
+}
+
+@media(min-width:1200px) {
+  .light-logo {
+    width: 44px !important;
+    height: 36px;
+}
+}

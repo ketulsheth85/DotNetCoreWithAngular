@@ -1,0 +1,21 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper" [ngClass]="{'show-sidebar': showMobileMenu}" dir="ltr" data-theme="light" data-layout="vertical"
+    [attr.data-sidebartype]="sidebartype" data-sidebar-position="fixed" data-header-position="fixed"
+    data-boxed-layout="full">
+    <app-clientfullmenu class="w-100"></app-clientfullmenu>
+    
+    <div class="page-wrapper">
+        <!-- <app-breadcrumb></app-breadcrumb> -->
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+      
+        <footer class="footer text-right">
+            All Rights Reserved by Core_Demo.
+        </footer>
+      
+    </div>
+    
+</div>

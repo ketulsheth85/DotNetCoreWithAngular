@@ -1,0 +1,27 @@
+.navbar-brand {
+    align-items: center;
+}
+.logo-text {
+    font-size: 15pt;
+    color: #fff;
+}
+.light-logo {
+    width: 44px ;
+    height: 36px;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #909090 !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #fff !important;
+    text-decoration: none;
+    background-color: #909090 !important;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #909090 !important;
+}

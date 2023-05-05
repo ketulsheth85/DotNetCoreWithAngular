@@ -1,0 +1,212 @@
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <div class="card">
+      <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+        <div class="row">
+          <div class="col-lg-8 col-sm-6 col-6">
+            <h5 class="m-b-0 text-white">Company Form</h5>
+          </div>
+          <div class="col-lg-4 col-sm-6 col-6 float-right">
+            <a routerLink="/component/customermaster" class="text-white float-right"><i class="mdi mdi-eye"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="mode=='Edit'">
+        <form autocomplete="off" class="row" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+          <input type="hidden" name="paymentDetailId" />
+          <div class="col-lg-3">
+            <div class="form-row ">
+              <div class="form-group col-md-12 text-center">
+                <label>
+                  Choose Customer Logo
+                </label>
+                <div class="custom-file hight100 mb-5">
+                  <input type="file" name="file" #file (change)="uploadFile($event)" class="custom-file-input" required
+                    style="display:none;">
+
+                  <img class="avatar border-gray img-fluid" id="ProPic" src="{{companydetail.companyLogo}}"
+                    (click)="file.click()">
+                  <input type="hidden" id="CompanyLogo" name="CompanyLogo" #companyLogo="ngModel"
+                    ngModel="{{companydetail.companyLogo}}">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Customer Name</label>
+                <input class="form-control form-control-md" placeholder="Company Name" name="CompanyName"
+                  #CompanyName="ngModel" ngModel="{{companydetail.companyName}}" required />
+                <div *ngIf="CompanyName.invalid && (CompanyName.dirty || CompanyName.touched)" class="alert-danger">
+                  <div *ngIf="CompanyName.errors?.required" class="alert alert-danger p-2" role="alert">
+                    Please enter company name.</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Code</label>
+                <input class="form-control form-control-md" placeholder="Code" name="CompanyCode" #CompanyCode="ngModel"
+                  ngModel="{{companydetail.companyCode}}" required />
+                <div *ngIf="CompanyCode.invalid && (CompanyCode.dirty || CompanyCode.touched)" class="alert-danger">
+                  <div *ngIf="CompanyCode.errors?.required" class="alert alert-danger p-2" role="alert">
+                    Please enter company code.</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Email</label>
+                <input class="form-control form-control-md" placeholder="Email" name="CompanyEmail"
+                  #CompanyEmail="ngModel" email ngModel="{{companydetail.companyEmail}}" required />
+                <div *ngIf="CompanyEmail.invalid && (CompanyEmail.dirty || CompanyEmail.touched)" class="alert-danger">
+                  <div *ngIf="CompanyEmail.errors?.required" class="alert alert-danger p-2" role="alert">
+                    Please enter email.</div>
+                  <div *ngIf="CompanyEmail.errors?.email" class="alert alert-danger p-2" role="alert">
+                    Please enter email correctly.</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Color Code</label>
+                <input type="color" class="form-control form-control-md" placeholder="Color Code in HEX"
+                  name="ColorCode" #ColorCode="ngModel" ngModel="{{companydetail.colorCode}}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Phone</label>
+                <input class="form-control form-control-md" placeholder="Phone" name="CompanyPhone"
+                  #CompanyPhone="ngModel" number ngModel="{{companydetail.companyPhone}}" required />
+                <div *ngIf="CompanyPhone.invalid && (CompanyPhone.dirty || CompanyPhone.touched)" class="alert-danger">
+                  <div *ngIf="CompanyPhone.errors?.required" class="alert alert-danger p-2" role="alert">
+                    Please enter phone number.</div>
+                  <div *ngIf="CompanyPhone.errors?.number" class="alert alert-danger p-2" role="alert">
+                    Please enter number correct.</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Fax</label>
+                <input class="form-control form-control-md" placeholder="Fax" name="CompanyFax"
+                  ngModel="{{companydetail.companyFax}}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label>Adress</label>
+                <input class="form-control form-control-md" placeholder="Adress" name="CompanyAdress"
+                  ngModel="{{companydetail.companyAdress}}" />
+              </div>
+              <div class="form-group col-md-12">
+                <label>Post Address</label>
+                <input class="form-control form-control-md" placeholder="Post Address" name="PostAddress"
+                  ngModel="{{companydetail.postAddress}}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Zip</label>
+                <input class="form-control form-control-md" placeholder="Zip" name="CompanyZip"
+                  ngModel="{{companydetail.companyZip}}" />
+              </div>
+              <div class="form-group col-md-6">
+                <label>City</label>
+                <input class="form-control form-control-md" placeholder="City" name="City"
+                  ngModel="{{companydetail.city}}" />
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <input type="hidden" name="CompanyID" ngModel="{{companydetail.companyID}}">
+            <button class="btn btn-info btn-md" type="submit" [ngStyle]="setMyBgColor(userData.colorCode)"
+              [disabled]="form.invalid">SUBMIT</button>
+            <button class="btn btn-secondary btn-md ml-2" type="reset">CANCEL</button>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="card-body" *ngIf="mode=='View'">
+        <div class="row">
+          <input type="hidden" name="paymentDetailId" />
+          <div class="form-row col-lg-3" style="align-content: center;">
+
+            <div class="form-group col-md-12 text-center">
+              <label>
+                Company Logo
+              </label>
+              <div class="custom-file hight100 mb-5">
+                <img class="avatar border-gray img-fluid shadow" id="ProPic" src="{{companydetail.companyLogo}}">
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-9">
+            <div class="form-row">
+              <div class=" form-group col-md-6">
+                <h5 class="text-bold-600">Company Name</h5>
+                <h4 class="text-muted text-bold-600">{{companydetail.companyName}}</h4>
+              </div>
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Code</h5>
+                <h4 class="text-muted text-bold-600">{{companydetail.companyCode}}</h4>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Email</h5>
+                <h4 class="text-muted text-bold-600">{{companydetail.companyEmail}}</h4>
+              </div>
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Color Code</h5>
+                <h4 class="text-muted text-bold-600">{{companydetail.colorCode}}</h4>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Phone</h5>
+                <h4 class="text-muted text-bold-600">{{companydetail.companyPhone}}</h4>
+
+
+              </div>
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Fax</h5>
+                <h4 class="text-muted text-bold-600">{{(companydetail.companyFax != null ?
+                  companydetail.companyFax : '--')}}</h4>
+
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Adress</h5>
+                <h4 class="text-muted text-bold-600">{{(companydetail.companyAdress != null ?
+                  companydetail.companyAdress : '--')}}</h4>
+
+              </div>
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Post Address</h5>
+                <h4 class="text-muted text-bold-600">{{(companydetail.postAddress != null ?
+                  companydetail.postAddress : '--')}}</h4>
+
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">Zip</h5>
+                <h4 class="text-muted text-bold-600">{{(companydetail.companyZip != null ?
+                  companydetail.companyZip : '--')}}</h4>
+
+              </div>
+              <div class="form-group col-md-6">
+                <h5 class="text-bold-600">City</h5>
+                <h4 class="text-muted text-bold-600">{{(companydetail.city != null ? companydetail.city:
+                  '--')}}</h4>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

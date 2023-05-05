@@ -1,0 +1,42 @@
+// Responsive
+/*
+Template Name: Admin Template
+Author: Wrappixel
+
+File: scss
+*/
+
+@media (max-width: 1169px) and (min-width: 768px) {
+    .upgrade-btn {
+        display: none;
+    }
+}
+
+/*-- ============================================================== 
+ Ipad & above all(768px) 
+ ============================================================== */
+
+@include media-breakpoint-up(md) {
+    .bc-content {
+        justify-content: flex-end;
+    }
+}
+
+.img-md {
+    width: 50px;
+    height: 50px;
+}
+.img-md-vr {
+    width: 55%;
+    margin: 0 0 15px 0;
+    //height: 90px;
+}
+
+/*-- ============================================================== 
+ Phone and below ipad(767px) 
+ ============================================================== */
+@include media-breakpoint-down(md) {
+    .do-block {
+        display: block !important;
+    }
+}

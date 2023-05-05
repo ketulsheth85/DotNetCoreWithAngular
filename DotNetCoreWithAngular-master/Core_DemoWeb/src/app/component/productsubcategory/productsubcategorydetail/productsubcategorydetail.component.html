@@ -1,0 +1,137 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.96)" size = "large" color = "#fff" type = "ball-circus" [fullScreen] = "true"><p style="color: white" > Please wait... </p></ngx-spinner>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header bg-Custome" [ngStyle]="setMyBgColor(userData.colorCode)">
+                <div class="row">
+                    <div class="col-lg-8 col-6">
+                        <h5 class="m-b-0 text-white">Product Sub Category Details</h5>
+                    </div>
+                    <div class="col-lg-4 col-6 float-right">
+                        <a (click)="open(content,0)" class="text-white float-right"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <input type="text" style="padding:8px;margin:15px auto;width:30%;"
+                    placeholder="Type to filter the columns"
+                    (keyup)="updateFilter($event)" />
+
+                  <ngx-datatable #table ngClass="material" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                  [scrollbarH]="scrollBarHorizontal" rowHeight="auto" [limit]="10" [rows]="productSubCatList">
+                    <ngx-datatable-column name="Product Categotry Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Company Name"></ngx-datatable-column>
+
+                    <ngx-datatable-column name="Actions" [sortable]="false" style="float: right;">
+                      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <a (click)="editViewRow(row,content,0)" *ngIf="row.isAssigned == 0"  title="" class="text-inverse ">
+                          <i class="far fa-edit text-info"></i>
+                        </a>
+                        <a (click)="editViewRow(row,content,1)" title="" class="text-inverse " style="margin: 0 0 0 10px;">
+                            <i class="fas fa-eye text-info"></i>
+                          </a>
+                        <a (click)="deleteRecord(row)" title="" *ngIf="row.isAssigned == 0"  class="text-inverse " style="margin: 0 0 0 10px;">
+                          <i class="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                    <!-- <table class="table table-bordered table-striped mb-0 no-wrap v-middle" *ngIf="productSubCatList">
+                        <thead>
+                            <tr>
+                                <th>Product Category Name</th>
+                                <th>Product Sub Category Name</th>
+                                <th>Company Name</th>
+                                <th style="text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let fr of productSubCatList">
+                                <td>{{ fr.productCategotryName }}</td>
+                                <td>{{ fr.name }}</td>
+                                <td *ngIf="userData.isCompanyFlag === 0">{{ fr.companyName }}</td>
+
+                                <td align="center">
+                                    <a (click)="editRow(fr,content)" title="" data-toggle="tooltip"
+                                        data-original-title="Delete" class="text-inverse ">
+                                        <i class="far fa-edit text-info"></i>
+                                    </a>
+                                    <a (click)="deleteRecord(fr)" title="" data-toggle="tooltip"
+                                        data-original-title="Delete" class="text-inverse " style="margin: 0 0 0 10px;">
+                                        <i class="fas fa-trash-alt text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header" [ngStyle]="setMyBgColor(userData.colorCode)">
+            <h4 class="modal-title" id="modal-basic-title">Product Sub Category</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div *ngIf="mode=='Edit'">
+            <form autocomplete="off" #form="ngForm">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="prCatName">Product Category Name</label>
+                    <select id="productSubCategory" class="form-control" (change)="onProducCatChange($event)"
+                        name="productSubCategory" #productSubCategory="ngModel" ngModel="{{productSubCat.selectedID}}" required>
+                        <option value="" selected="selected">Select Product Category</option>
+                        <option *ngFor="let product_Cat of productCatList;" value="{{product_Cat.productCategoryID}}">
+                            {{product_Cat.productCategotryName }}</option>
+                    </select>
+                    <div *ngIf="productSubCategory.invalid && (productSubCategory.dirty || productSubCategory.touched)"
+                                class="alert-danger">
+                                <div *ngIf="productSubCategory.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please select product category.</div>
+                            </div>
+                    <input type="hidden" id="prodcuctCategoryId" name="prodcuctCategoryId" #prodcuctCategoryId="ngModel"
+                        ngModel={{productSubCat.prodcuctCategoryId}} />
+                </div>
+
+                <div class="form-group">
+                    <label for="prCatName">Product Sub Category Name</label>
+                    <input id="name" class="form-control" placeholder="Product Sub Category Name" name="name"
+                        #name="ngModel" ngModel="{{productSubCat.name}}" required>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                class="alert-danger">
+                                <div *ngIf="name.errors?.required" class="alert alert-danger p-2" role="alert">
+                                    Please enter Product Sub Category Name.</div>
+                            </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="productSubCategoryId" name="productSubCategoryId"
+                    #productSubCategoryId="ngModel" ngModel={{productSubCat.productSubCategoryId}} />
+                <button type="submit" class="btn btn-success" [ngStyle]="setMyBgColor(userData.colorCode)"
+                [disabled]="form.invalid" (click)="onSubmit(form.value)">Save</button>
+            </div>
+            </form>
+        </div>
+
+        <div *ngIf="mode=='View'">
+            <form autocomplete="off" #form="ngForm">
+                <div class="modal-body">
+                    <div class="col-lg-6 form-group">
+                        <h5 class="text-bold-600">Product Category Name</h5>
+                        <h4 class="text-muted text-bold-600"> {{productSubCat.productCategotryName}}</h4>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <h5 class="text-bold-600">Product Sub Category Name</h5>
+                        <h4 class="text-muted text-bold-600"> {{productSubCat.name }}</h4>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+</div>

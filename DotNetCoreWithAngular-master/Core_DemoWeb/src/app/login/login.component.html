@@ -1,0 +1,52 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center"
+    style="background: url(../../assets/images/background/login-register.jpg) no-repeat center center;">
+   
+    <div class="auth-box m-3 m-md-0">
+        <div id="loginform">
+            <div class="logo"><span class="db">
+                <img class="img-resposive img-md-vr" src="../../assets/images/Logo/core_logo2.png" alt="logo"></span>
+                <h4 class="font-medium m-b-20">Sign In to Core_Demo</h4>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <form autocomplete="off" class="form-horizontal m-t-20" #form="ngForm"
+                        (ngSubmit)="onSubmit(form.value)">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text"><i
+                                        class="ti-user"></i>
+                                </span></div>
+                            <input type="text" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1" class="form-control" name="userName" id="userName"
+                                #userName="ngModel" ngModel="{{userData.userName}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span id="basic-addon2" class="input-group-text">
+                                    <i class="ti-pencil"></i>
+                                </span>
+                            </div>
+                            <input type="password" placeholder="Password" aria-label="Password"
+                                aria-describedby="basic-addon1" class="form-control" name="password" id="password"
+                                #userName="ngModel" ngModel="{{userData.password}}">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox d-flex">
+                                    <input type="checkbox" id="customCheck1" class="custom-control-input">
+                                    <label for="customCheck1" class="custom-control-label font-14">Remember me</label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button class="btn btn-block btn-lg btn-info" type="submit">Log In
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
